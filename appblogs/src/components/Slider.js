@@ -5,6 +5,7 @@ import {
   Image,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 
@@ -12,7 +13,7 @@ let currentSlideIndex = 0;
 let intervalId;
 
 const width = Dimensions.get("window").width - 20;
-export default function Slider({ data, title }) {
+export default function Slider({ data, title, onSliderPress }) {
   const [dataRender, setDataRender] = useState([]);
   const [visibleSlideIndex, setVisibleSlideIndex] = useState(0);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
@@ -68,6 +69,9 @@ export default function Slider({ data, title }) {
     if (dataRender.length && flatList.current) {
       startSlider();
     }
+    return () => {
+      pauseSlider();
+    };
   }, [dataRender?.length]);
 
   useEffect(() => {
@@ -99,17 +103,19 @@ export default function Slider({ data, title }) {
         viewabilityConfig={viewabilityConfig.current}
         renderItem={({ item }) => {
           return (
-            <View>
-              <Image
-                source={{ uri: item?.thumbnail }}
-                style={styles.imageThumbnail}
-              />
-              <View style={{ width }}>
-                <Text numberOfLines={2} style={styles.titleHeader}>
-                  {item?.title}
-                </Text>
+            <TouchableOpacity onPress={() => onSliderPress(item)}>
+              <View>
+                <Image
+                  source={{ uri: item?.thumbnail }}
+                  style={styles.imageThumbnail}
+                />
+                <View style={{ width }}>
+                  <Text numberOfLines={2} style={styles.titleHeader}>
+                    {item?.title}
+                  </Text>
+                </View>
               </View>
-            </View>
+            </TouchableOpacity>
           );
         }}
       />

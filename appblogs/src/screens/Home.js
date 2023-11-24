@@ -48,7 +48,11 @@ export default function Home({ navigation }) {
     return (
       <View style={{ paddingTop: Constants.statusBarHeight }}>
         {featuredPosts.length ? (
-          <Slider data={featuredPosts} title="Featured Posts" />
+          <Slider
+            onSliderPress={fetchSinglePost}
+            data={featuredPosts}
+            title="Featured Posts"
+          />
         ) : null}
         <View style={{ marginTop: 15 }}>
           <Seperator />
@@ -66,7 +70,8 @@ export default function Home({ navigation }) {
       </View>
     );
   };
-  const fetchSinglePost = async (slug) => {
+  const fetchSinglePost = async (postInfo) => {
+    const slug = postInfo.slug || postInfo;
     const { error, post } = await getSinglePost(slug);
     if (error) console.log(error);
     navigation.navigate("Details", { post });

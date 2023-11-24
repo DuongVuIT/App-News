@@ -9,13 +9,21 @@ import {
 import Markdown from "react-native-markdown-display";
 import React from "react";
 import dateFormat from "dateformat";
+import Related from "./Related";
+import Seperator from "../components/Seperator";
+import { getSinglePost } from "../api/post";
 const { width } = Dimensions.get("window");
-const Details = ({ route }) => {
+const Details = ({ route, navigation }) => {
   const post = route.params?.post;
   if (!post) return null;
   const getImage = (uri) => {
     if (uri) return { uri };
     return require("../../assets/eugene-golovesov-y6OwxwYKSQE-unsplash.jpg");
+  };
+  const handleSinglePostFetch = async (slug) => {
+    const { error, post } = await getSinglePost(slug);
+    if (error) return console.log(error);
+    navigation.push("Details", { post });
   };
   const { title, thumbnail, tags, createdAt, author, content } = post;
   return (
@@ -60,6 +68,23 @@ const Details = ({ route }) => {
           </View>
         </View>
         <Markdown style={styles}>{content}</Markdown>
+      </View>
+      <View>
+        <Text
+          style={{
+            fontWeight: "bold",
+            color: "#383838",
+            textAlign: "center",
+            marginBottom: 10,
+            fontSize: 22,
+          }}
+        >
+          Related Posts
+        </Text>
+        <Seperator width="100%" />
+        <View style={{ marginTop: 10 }}>
+          <Related handleOnPress={handleSinglePostFetch} postId={post.id} />
+        </View>
       </View>
     </ScrollView>
   );

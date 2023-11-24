@@ -9,7 +9,10 @@ export default function PostItemList({ post, onPress }) {
     return require("../../assets/eugene-golovesov-y6OwxwYKSQE-unsplash.jpg");
   };
   return (
-    <TouchableOpacity onPress={onPress} style={{ flexDirection: "row" }}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={{ marginTop: 10, flexDirection: "row" }}
+    >
       <Image
         source={getThumbnail(thumbnail)}
         style={{ width: IMAGE_WIDTH, height: IMAGE_WIDTH / 1.7 }}

@@ -10,7 +10,7 @@ const NativeStack = ({ navigation }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        options={{ headerShow: false }}
+        options={{ title: "", header: () => null }}
         name="HomeScreen"
         component={Home}
       />

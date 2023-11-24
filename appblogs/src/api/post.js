@@ -36,3 +36,27 @@ export const getSinglePost = async (slug) => {
     return { error: error.message || error };
   }
 };
+export const getSimilarPosts = async (id) => {
+  try {
+    const { data } = await client(`/post/realted-posts/${id}`);
+    return data;
+  } catch (error) {
+    const { response } = error;
+    if (response?.data) {
+      return response.data;
+    }
+    return { error: error.message || error };
+  }
+};
+export const searchPost = async (query) => {
+  try {
+    const { data } = await client(`/post/search?title=${query}`);
+    return data;
+  } catch (error) {
+    const { response } = error;
+    if (response?.data) {
+      return response.data;
+    }
+    return { error: error.message || error };
+  }
+};
